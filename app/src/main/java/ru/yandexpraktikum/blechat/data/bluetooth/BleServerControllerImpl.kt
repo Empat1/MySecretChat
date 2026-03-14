@@ -44,8 +44,6 @@ class BleServerControllerImpl @Inject constructor(
     private val viewModelScope: CoroutineScope
 ): BleServerController {
 
-    private val CLIENT_CONFIG_DESCRIPTOR = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
-
     private var gattServer: BluetoothGattServer? = null
     private var gattServerCallback: BluetoothGattServerCallback? = null
 
@@ -151,7 +149,7 @@ class BleServerControllerImpl @Inject constructor(
             return
         }
 
-        gattServerCallback = object : BluetoothGattServerCallback() {
+        this.gattServerCallback = object : BluetoothGattServerCallback() {
             override fun onConnectionStateChange(
                 device: android.bluetooth.BluetoothDevice?,
                 status: Int,
@@ -316,5 +314,9 @@ class BleServerControllerImpl @Inject constructor(
 
     override fun release() {
         closeConnection()
+    }
+
+    companion object {
+        private val CLIENT_CONFIG_DESCRIPTOR = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb")
     }
 }
